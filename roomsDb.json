@@ -1,0 +1,29 @@
+{
+  "rooms": [
+    {
+      "roomNumber": 101,
+      "roomType": "double",
+      "status": "занято"
+    },
+    {
+      "roomNumber": 102,
+      "roomType": "single",
+      "status": "свободно"
+    },
+    {
+      "roomNumber": 103,
+      "roomType": "triple",
+      "status": "уборка"
+    },
+    {
+      "roomNumber": 104,
+      "roomType": "quadro",
+      "status": "свободно"
+    },
+    {
+      "roomNumber": 105,
+      "roomType": "separated",
+      "status": "занято"
+    }
+  ]
+}
