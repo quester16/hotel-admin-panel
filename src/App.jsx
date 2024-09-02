@@ -1,7 +1,7 @@
+import { Box } from "@mui/material";
 import React from "react";
 import Header from "./components/header/header";
 import RoomsList from "./components/roomList/RoomList";
-import { Box } from "@mui/material";
 import RoomStatus from "./components/roomStatus/RoomStatus";
 
 function App() {

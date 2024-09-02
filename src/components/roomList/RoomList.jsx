@@ -1,9 +1,10 @@
 import { Box } from "@mui/material";
-import Room from "./Room";
 import { useEffect } from "react";
-import { fetchRooms } from "../../store/slices/hotel";
 import { useDispatch, useSelector } from "react-redux";
+import { fetchRooms } from "../../store/slices/hotel";
+import RoomsErrorBoundary from "../ErrorBoundaries/RoomsErrorBoundary";
 import RoomSkeleton from "../room-skeleton/RoomSkeleton";
+import Room from "./Room";
 
 const RoomList = () => {
   const dispatch = useDispatch();
@@ -12,20 +13,35 @@ const RoomList = () => {
     dispatch(fetchRooms());
   }, []);
 
-  const rooms = useSelector((state) => state.rooms);
-  const loading = useSelector((state) => state.loading);
+  // const rooms = useSelector((state) => state.hotelSlice.rooms);
+  const { loading, error, rooms } = useSelector((state) => state.hotelSlice);
 
   let emptyArray = Array.from({ length: 8 });
 
+  const skeleton = loading
+    ? emptyArray.map((_, i) => {
+        return <RoomSkeleton key={i} />;
+      })
+    : null;
+  const errorBoundary = error ? <RoomsErrorBoundary /> : null;
+  const content = !(loading && error)
+    ? rooms.map((item, i) => {
+        return <Room key={i} rooms={item} />;
+      })
+    : null;
+
   return (
-    <Box display="flex" flexDirection="row" gap={2} flexWrap="wrap">
-      {loading
-        ? emptyArray.map((_, i) => {
-            return <RoomSkeleton key={i} />;
-          })
-        : rooms.map((item, i) => {
-            return <Room key={i} rooms={item} />;
-          })}
+    <Box
+      display="flex"
+      flexDirection="row"
+      gap={2}
+      flexWrap="wrap"
+      width={"100%"}
+      justifyContent={error ? "center" : ""}
+    >
+      {skeleton}
+      {errorBoundary}
+      {content}
     </Box>
   );
 };
