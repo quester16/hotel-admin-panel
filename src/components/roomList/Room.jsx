@@ -13,11 +13,12 @@ import two from "../../assets/beds/two-bed.png";
 import vip from "../../assets/beds/vip.png";
 
 export default function Room(props) {
+  // eslint-disable-next-line react/prop-types
   const { roomNumber, roomType } = props.rooms;
 
   return (
     <>
-      <Card sx={{ width: 240, border: "2px solid gray" }}>
+      <Card sx={{ width: 240, height: 160, border: "2px solid gray" }}>
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             <Box display="flex" alignContent="center" gap="30px">
@@ -28,10 +29,10 @@ export default function Room(props) {
                     roomType === "single"
                       ? single
                       : roomType === "double"
-                      ? double
-                      : roomType === "separated"
-                      ? two
-                      : vip
+                        ? double
+                        : roomType === "separated"
+                          ? two
+                          : vip
                   }
                   alt={roomType}
                 />

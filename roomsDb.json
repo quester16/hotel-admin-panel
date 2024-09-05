@@ -3,27 +3,48 @@
     {
       "roomNumber": 101,
       "roomType": "double",
-      "status": "занято"
+      "status": "занято",
+      "payment": 400
     },
     {
       "roomNumber": 102,
       "roomType": "single",
-      "status": "свободно"
+      "status": "свободно",
+      "payment": 150
     },
     {
       "roomNumber": 103,
       "roomType": "triple",
-      "status": "уборка"
+      "status": "уборка",
+      "payment": 500
     },
     {
       "roomNumber": 104,
       "roomType": "quadro",
-      "status": "свободно"
+      "status": "свободно",
+      "payment": 700
     },
     {
       "roomNumber": 105,
       "roomType": "separated",
-      "status": "занято"
+      "status": "занято",
+      "payment": 350
+    }
+  ],
+  "roomStatus": [
+    {
+      "id": "64ca",
+      "name": "saidburhon",
+      "date": "2024-09-06",
+      "payment": "200",
+      "roomNumber": "103"
+    },
+    {
+      "id": "5117",
+      "name": "sdf",
+      "date": "2024-09-06",
+      "payment": "600",
+      "roomNumber": "104"
     }
   ]
 }

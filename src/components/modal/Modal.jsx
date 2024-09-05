@@ -3,9 +3,9 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import TextField from "@mui/material/TextField";
-import * as React from "react";
 import { useDispatch } from "react-redux";
-import { makeEntry } from "../../store/slices/hotel";
+import { fetchPostRoomStatus, makeEntry } from "../../store/slices/hotel";
+import * as React from "react";
 
 export default function Modal(props) {
   const dispatch = useDispatch();
@@ -34,8 +34,8 @@ export default function Modal(props) {
             const formData = new FormData(event.currentTarget);
             formData.append("roomNumber", props.roomNumber);
             const formJson = Object.fromEntries(formData.entries());
-            console.log(formJson);
-            dispatch(makeEntry(formJson));
+            // dispatch(makeEntry(formJson));
+            dispatch(fetchPostRoomStatus(formJson));
             handleClose();
           },
         }}
@@ -60,6 +60,17 @@ export default function Modal(props) {
             name="date"
             label="дата выезда"
             type="date"
+            fullWidth
+            variant="standard"
+          />
+          <TextField
+            autoFocus
+            required
+            margin="dense"
+            id="payment"
+            name="payment"
+            label="оплата"
+            type="number"
             fullWidth
             variant="standard"
           />

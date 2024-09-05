@@ -11,7 +11,7 @@ const RoomList = () => {
 
   useEffect(() => {
     dispatch(fetchRooms());
-  }, []);
+  }, [dispatch]);
 
   // const rooms = useSelector((state) => state.hotelSlice.rooms);
   const { loading, error, rooms } = useSelector((state) => state.hotelSlice);
@@ -34,9 +34,9 @@ const RoomList = () => {
     <Box
       display="flex"
       flexDirection="row"
-      gap={2}
+      gap={"10px"}
       flexWrap="wrap"
-      width={"100%"}
+      width={1000}
       justifyContent={error ? "center" : ""}
     >
       {skeleton}
