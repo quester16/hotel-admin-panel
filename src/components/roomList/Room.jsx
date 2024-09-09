@@ -4,7 +4,7 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Chip from "@mui/material/Chip";
 import Typography from "@mui/material/Typography";
-import Modal from "../modal/Modal";
+import Modal from "../modal/RoomListModal";
 import "./style.scss";
 
 import double from "../../assets/beds/double-bed.png";
@@ -29,10 +29,10 @@ export default function Room(props) {
                     roomType === "single"
                       ? single
                       : roomType === "double"
-                        ? double
-                        : roomType === "separated"
-                          ? two
-                          : vip
+                      ? double
+                      : roomType === "separated"
+                      ? two
+                      : vip
                   }
                   alt={roomType}
                 />

@@ -11,11 +11,7 @@ const initialState = {
 const hotelSlice = createSlice({
   name: "hotel",
   initialState,
-  reducers: {
-    // makeEntry: (state, action) => {
-    //   state.roomStatus.push(action.payload);
-    // },
-  },
+  reducers: {},
   extraReducers: (build) => {
     build
       .addCase(fetchRooms.pending, (state) => {
@@ -66,7 +62,7 @@ export const fetchPostRoomStatus = createAsyncThunk(
   async (prop) => {
     const req = await axios.post("http://localhost:3000/roomStatus", prop);
     return req.data;
-  },
+  }
 );
 
 export const fetchGetRoomStatus = createAsyncThunk(
@@ -74,5 +70,5 @@ export const fetchGetRoomStatus = createAsyncThunk(
   async () => {
     const req = await axios.get("http://localhost:3000/roomStatus");
     return req.data;
-  },
+  }
 );

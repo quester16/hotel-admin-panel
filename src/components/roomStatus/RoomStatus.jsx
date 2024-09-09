@@ -1,58 +1,13 @@
-// import Table from "@mui/material/Table";
-// import TableBody from "@mui/material/TableBody";
-// import TableCell from "@mui/material/TableCell";
-// import TableContainer from "@mui/material/TableContainer";
-// import TableHead from "@mui/material/TableHead";
-// import TableRow from "@mui/material/TableRow";
-// import Paper from "@mui/material/Paper";
-// import { useSelector } from "react-redux";
-//
-//
-// export default function RoomStatus() {
-//   const roomStatus = useSelector((state) => state.hotelSlice.roomStatus);
-//
-//   return (
-//     <TableContainer component={Paper}>
-//       <Table sx={{ minWidth: 450 }} aria-label="simple table">
-//         <TableHead>
-//           <TableRow>
-//             <TableCell sx={{ fontWeight: "bold" }}>Имя</TableCell>
-//             <TableCell align="right" sx={{ fontWeight: "bold" }}>
-//               Комната
-//             </TableCell>
-//             <TableCell sx={{ fontWeight: "bold" }} align="right">
-//               Дата выезда
-//             </TableCell>
-//           </TableRow>
-//         </TableHead>
-//         <TableBody>
-//           {roomStatus.map((room) => (
-//             <TableRow
-//               key={room.name}
-//               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-//             >
-//               <TableCell component="th" scope="om">
-//                 {room.name}
-//               </TableCell>
-//               <TableCell align="right">{room.roomNumber}</TableCell>
-//               <TableCell align="right">{room.date}</TableCell>
-//             </TableRow>
-//           ))}
-//         </TableBody>
-//       </Table>
-//     </TableContainer>
-//   );
-// }
 // ///////////////////////////////
 import { DataGrid } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { fetchGetRoomStatus } from "../../store/slices/hotel.js";
+import RoomStatusModal from "../modal/RoomStatusModal.jsx";
 
 const columns = [
   { field: "id", headerName: "ID", width: 70 },
-  // { field: "firstName", headerName: "First name", width: 130 },
   { field: "room", headerName: "Комната", width: 80 },
   {
     field: "имя",
@@ -67,7 +22,8 @@ const columns = [
 
 const paginationModel = { page: 0, pageSize: 5 };
 
-export default function DataTable() {
+export default function RoomStatus() {
+  const [open, setOpen] = useState(false);
   const roomStatus = useSelector((state) => state.hotelSlice.roomStatus);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -82,28 +38,27 @@ export default function DataTable() {
       room: room.roomNumber,
     };
   });
-  // const rows = [
-  //   { id: 1, lastName: "Snow", firstName: "Jon", payment: 35 },
-  //   { id: 2, lastName: "Lannister", firstName: "Cersei", payment: 42 },
-  //   { id: 3, lastName: "Lannister", firstName: "Jaime", payment: 45 },
-  //   { id: 4, lastName: "Stark", firstName: "Arya", payment: 16 },
-  //   { id: 5, lastName: "Targaryen", firstName: "Daenerys", payment: null },
-  //   { id: 6, lastName: "Melisandre", firstName: null, payment: 150 },
-  //   { id: 7, lastName: "Clifford", firstName: "Ferrara", payment: 44 },
-  //   { id: 8, lastName: "Frances", firstName: "Rossini", payment: 36 },
-  //   { id: 9, lastName: "Roxie", firstName: "Harvey", payment: 65 },
-  // ];
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (value) => {
+    setOpen(false);
+  };
 
   return (
-    <Paper sx={{ height: 400, width: "100%", border: "1px solid black" }}>
+    <Paper sx={{ width: "100%", border: "1px solid black" }}>
       <DataGrid
         rows={rows}
         columns={columns}
         initialState={{ pagination: { paginationModel } }}
         pageSizeOptions={[5, 10]}
-        checkboxSelection
+        checkboxSelection={false}
+        onRowClick={handleClickOpen}
         sx={{ border: 0 }}
       />
+      <RoomStatusModal selectedValue={""} open={open} onClose={handleClose} />
     </Paper>
   );
 }

@@ -38,6 +38,7 @@ const RoomList = () => {
       flexWrap="wrap"
       width={1000}
       justifyContent={error ? "center" : ""}
+      alignContent={error ? "center" : ""}
     >
       {skeleton}
       {errorBoundary}

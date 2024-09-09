@@ -7,7 +7,7 @@ export default function RoomsErrorBoundary() {
     <Box display="flex" justifyContent={"center"}>
       <Alert severity="error">
         <AlertTitle>Error</AlertTitle>
-        This is an error Alert with a scary title.
+        Ошибка при загрузки контента
       </Alert>
     </Box>
   );

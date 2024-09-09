@@ -34,13 +34,13 @@ export default function Modal(props) {
             const formData = new FormData(event.currentTarget);
             formData.append("roomNumber", props.roomNumber);
             const formJson = Object.fromEntries(formData.entries());
-            // dispatch(makeEntry(formJson));
             dispatch(fetchPostRoomStatus(formJson));
             handleClose();
           },
         }}
       >
         <DialogContent>
+          <strong>Комната {props.roomNumber}</strong>
           <TextField
             autoFocus
             required
