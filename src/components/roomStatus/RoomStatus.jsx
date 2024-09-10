@@ -24,11 +24,13 @@ const paginationModel = { page: 0, pageSize: 5 };
 
 export default function RoomStatus() {
   const [open, setOpen] = useState(false);
+  const [selectedRoom, setSelectedRoom] = useState();
+  const [selectedId, setSelectedId] = useState();
   const roomStatus = useSelector((state) => state.hotelSlice.roomStatus);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchGetRoomStatus());
-  }, [dispatch]);
+  }, []);
 
   const rows = roomStatus.map((room, i) => {
     return {
@@ -39,12 +41,16 @@ export default function RoomStatus() {
     };
   });
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (val) => {
     setOpen(true);
+    setSelectedRoom(val.row.room);
+    setSelectedId(val.row.id);
+    console.log(val);
   };
 
-  const handleClose = (value) => {
+  const handleClose = () => {
     setOpen(false);
+    console.log(selectedId);
   };
 
   return (
@@ -58,7 +64,12 @@ export default function RoomStatus() {
         onRowClick={handleClickOpen}
         sx={{ border: 0 }}
       />
-      <RoomStatusModal selectedValue={""} open={open} onClose={handleClose} />
+      <RoomStatusModal
+        open={open}
+        onClose={handleClose}
+        roomNumber={selectedRoom}
+        id={selectedId}
+      />
     </Paper>
   );
 }

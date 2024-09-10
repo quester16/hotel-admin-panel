@@ -4,7 +4,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import TextField from "@mui/material/TextField";
 import { useDispatch } from "react-redux";
-import { fetchPostRoomStatus, makeEntry } from "../../store/slices/hotel";
+import { changeRoomsList, fetchPostRoomStatus } from "../../store/slices/hotel";
 import * as React from "react";
 
 export default function Modal(props) {
@@ -32,8 +32,9 @@ export default function Modal(props) {
           onSubmit: (event) => {
             event.preventDefault();
             const formData = new FormData(event.currentTarget);
-            formData.append("roomNumber", props.roomNumber);
+            formData.append("roomNumber", +props.roomNumber);
             const formJson = Object.fromEntries(formData.entries());
+            dispatch(changeRoomsList(+props.roomNumber));
             dispatch(fetchPostRoomStatus(formJson));
             handleClose();
           },

@@ -11,7 +11,13 @@ const initialState = {
 const hotelSlice = createSlice({
   name: "hotel",
   initialState,
-  reducers: {},
+  reducers: {
+    changeRoomsList: (state, action) => {
+      state.rooms = state.rooms.filter(
+        (room) => room.roomNumber !== action.payload
+      );
+    },
+  },
   extraReducers: (build) => {
     build
       .addCase(fetchRooms.pending, (state) => {
@@ -29,7 +35,7 @@ const hotelSlice = createSlice({
         state.error = true;
         state.rooms = [];
       })
-
+      // getting room status from db
       .addCase(fetchGetRoomStatus.pending, (state) => {
         state.loading = true;
         state.error = false;
@@ -50,7 +56,7 @@ const hotelSlice = createSlice({
 
 export default hotelSlice.reducer;
 
-export const { makeEntry } = hotelSlice.actions;
+export const { changeRoomsList } = hotelSlice.actions;
 
 export const fetchRooms = createAsyncThunk("hotel/fetchRooms", async () => {
   const req = await axios.get("http://localhost:3000/rooms");
@@ -70,5 +76,12 @@ export const fetchGetRoomStatus = createAsyncThunk(
   async () => {
     const req = await axios.get("http://localhost:3000/roomStatus");
     return req.data;
+  }
+);
+
+export const fetchDeleteRoomStatus = createAsyncThunk(
+  "hotel/fetchDeleteRoomStatus",
+  async (prop) => {
+    await axios.delete("http://localhost:3000/roomStatus", prop);
   }
 );

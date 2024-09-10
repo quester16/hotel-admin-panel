@@ -5,25 +5,35 @@ import DialogTitle from "@mui/material/DialogTitle";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup";
 import PropTypes from "prop-types";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { fetchDeleteRoomStatus } from "../../store/slices/hotel";
 
 export default function RoomStatusModal(props) {
-  const { onClose, selectedValue, open } = props;
+  const dispatch = useDispatch();
+  const { onClose, open, roomNumber, id } = props;
+  const [selectedValue, setSelectedValue] = useState("");
 
   const handleClose = () => {
     onClose(selectedValue);
+    selectedValue ? dispatch(fetchDeleteRoomStatus(id)) : null;
   };
 
-  const onSubmit = (val) => {
-    console.log(val);
+  const onChange = (val) => {
+    const target = val.target;
+    target.checked ? setSelectedValue(target.value) : setSelectedValue("");
   };
 
   return (
     <Dialog onClose={handleClose} open={open}>
-      <DialogTitle>Set backup account</DialogTitle>
-      <FormGroup sx={{ p: "10px" }} onSubmit={onSubmit}>
-        <FormControlLabel control={<Checkbox />} label="Checkout" />
-        <FormControlLabel control={<Checkbox />} label="Уборка" />
-        <FormControlLabel control={<Checkbox />} label="Disabled" />
+      <DialogTitle>Комната {roomNumber}</DialogTitle>
+      <FormGroup sx={{ p: "10px" }}>
+        <FormControlLabel
+          onChange={onChange}
+          control={<Checkbox />}
+          label="Checkout"
+          value={"checkout"}
+        />
         <Button variant="contained" type="submit" onClick={handleClose}>
           Ok
         </Button>
@@ -35,7 +45,6 @@ export default function RoomStatusModal(props) {
 RoomStatusModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
-  selectedValue: PropTypes.string.isRequired,
 };
 
 // export function RoomSttusModal() {
