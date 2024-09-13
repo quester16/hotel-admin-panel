@@ -14,18 +14,18 @@ const RoomList = () => {
     dispatch(fetchRooms());
   }, [dispatch]);
   // надо доделать чтобы комната не отображалась при въезде
-  const roomListSelector = createSelector(
-    (state) => state.hotelSlice.rooms,
-    (state) => state.hotelSlice.roomStatus,
-    (rooms, roomStatus) => {
-      console.log(roomStatus);
+  // const roomListSelector = createSelector(
+  //   (state) => state.hotelSlice.rooms,
+  //   (state) => state.hotelSlice.roomStatus,
+  //   (rooms, roomStatus) => {
+  //     console.log(roomStatus);
 
-      return rooms.filter((room, i) => room.id !== roomStatus[i].id);
-    }
-  );
-
-  const { loading, error } = useSelector((state) => state.hotelSlice);
-  const rooms = useSelector(roomListSelector);
+  //     return rooms.filter((room, i) => room.id !== roomStatus[i].id);
+  //   }
+  // );
+  // const rooms = useSelector(roomListSelector);
+  // ? need to complete rooms to fade after entering
+  const { loading, error, rooms } = useSelector((state) => state.hotelSlice);
 
   let emptyArray = Array.from({ length: 8 });
 
