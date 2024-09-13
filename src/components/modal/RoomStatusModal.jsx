@@ -7,16 +7,22 @@ import FormGroup from "@mui/material/FormGroup";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { fetchDeleteRoomStatus } from "../../store/slices/hotel";
+import {
+  fetchDeleteRoomStatus,
+  removeRoomStatus,
+} from "../../store/slices/hotel";
 
 export default function RoomStatusModal(props) {
   const dispatch = useDispatch();
-  const { onClose, open, roomNumber, id } = props;
+  const { onClose, open, roomData } = props;
   const [selectedValue, setSelectedValue] = useState("");
 
   const handleClose = () => {
     onClose(selectedValue);
-    selectedValue ? dispatch(fetchDeleteRoomStatus(id)) : null;
+    if (selectedValue) {
+      dispatch(fetchDeleteRoomStatus(roomData.dataId));
+      dispatch(removeRoomStatus(roomData.dataId));
+    }
   };
 
   const onChange = (val) => {
@@ -26,7 +32,7 @@ export default function RoomStatusModal(props) {
 
   return (
     <Dialog onClose={handleClose} open={open}>
-      <DialogTitle>Комната {roomNumber}</DialogTitle>
+      <DialogTitle>Комната {roomData.room}</DialogTitle>
       <FormGroup sx={{ p: "10px" }}>
         <FormControlLabel
           onChange={onChange}

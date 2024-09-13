@@ -42,7 +42,7 @@ export default function Room(props) {
           </Typography>
         </CardContent>
         <CardActions>
-          <Modal roomNumber={roomNumber} />
+          <Modal roomData={props.rooms} />
         </CardActions>
       </Card>
     </>

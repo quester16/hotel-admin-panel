@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import axios from "../../axios";
 
 const initialState = {
   roomStatus: [],
@@ -13,8 +13,17 @@ const hotelSlice = createSlice({
   initialState,
   reducers: {
     changeRoomsList: (state, action) => {
+      console.log("i'm changelist");
       state.rooms = state.rooms.filter(
         (room) => room.roomNumber !== action.payload
+      );
+    },
+    addRoomStatus: (state, action) => {
+      state.roomStatus.push(action.payload);
+    },
+    removeRoomStatus: (state, action) => {
+      state.roomStatus = state.roomStatus.filter(
+        (room) => room.id !== action.payload
       );
     },
   },
@@ -56,17 +65,18 @@ const hotelSlice = createSlice({
 
 export default hotelSlice.reducer;
 
-export const { changeRoomsList } = hotelSlice.actions;
+export const { changeRoomsList, addRoomStatus, removeRoomStatus } =
+  hotelSlice.actions;
 
 export const fetchRooms = createAsyncThunk("hotel/fetchRooms", async () => {
-  const req = await axios.get("http://localhost:3000/rooms");
+  const req = await axios.get("/rooms");
   return req.data;
 });
 
 export const fetchPostRoomStatus = createAsyncThunk(
   "hotel/fetchPostRoomStatus",
   async (prop) => {
-    const req = await axios.post("http://localhost:3000/roomStatus", prop);
+    const req = await axios.post("/roomStatus", prop);
     return req.data;
   }
 );
@@ -74,7 +84,7 @@ export const fetchPostRoomStatus = createAsyncThunk(
 export const fetchGetRoomStatus = createAsyncThunk(
   "hotel/fetchGetRoomStatus",
   async () => {
-    const req = await axios.get("http://localhost:3000/roomStatus");
+    const req = await axios.get("/roomStatus");
     return req.data;
   }
 );
@@ -82,6 +92,6 @@ export const fetchGetRoomStatus = createAsyncThunk(
 export const fetchDeleteRoomStatus = createAsyncThunk(
   "hotel/fetchDeleteRoomStatus",
   async (prop) => {
-    await axios.delete("http://localhost:3000/roomStatus", prop);
+    await axios.delete("/roomStatus/" + prop);
   }
 );

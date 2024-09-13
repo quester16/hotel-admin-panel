@@ -1,31 +1,36 @@
 // ///////////////////////////////
-import { DataGrid } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
-import { useDispatch, useSelector } from "react-redux";
+import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchGetRoomStatus } from "../../store/slices/hotel.js";
 import RoomStatusModal from "../modal/RoomStatusModal.jsx";
 
 const columns = [
-  { field: "id", headerName: "ID", width: 70 },
+  { field: "id", headerName: "ID", width: 60 },
   { field: "room", headerName: "Комната", width: 80 },
   {
-    field: "имя",
+    field: "name",
     headerName: "Имя",
     description: "This column has a value getter and is not sortable.",
     sortable: false,
-    width: 160,
+    width: 120,
     valueGetter: (value, row) => `${row.firstName || ""} ${row.lastName || ""}`,
+  },
+  {
+    field: "checkoutDate",
+    headerName: "Дата выезда",
+    type: "object",
+    width: 100,
   },
   { field: "payment", headerName: "Оплата", type: "number", width: 90 },
 ];
 
-const paginationModel = { page: 0, pageSize: 5 };
+const paginationModel = { page: 0, pageSize: 10 };
 
 export default function RoomStatus() {
   const [open, setOpen] = useState(false);
-  const [selectedRoom, setSelectedRoom] = useState();
-  const [selectedId, setSelectedId] = useState();
+  const [roomData, setRoomData] = useState({});
   const roomStatus = useSelector((state) => state.hotelSlice.roomStatus);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -38,19 +43,18 @@ export default function RoomStatus() {
       firstName: room.name,
       payment: room.payment,
       room: room.roomNumber,
+      checkoutDate: room.date,
+      dataId: room.id,
     };
   });
 
   const handleClickOpen = (val) => {
     setOpen(true);
-    setSelectedRoom(val.row.room);
-    setSelectedId(val.row.id);
-    console.log(val);
+    setRoomData({ ...val.row });
   };
 
   const handleClose = () => {
     setOpen(false);
-    console.log(selectedId);
   };
 
   return (
@@ -59,17 +63,12 @@ export default function RoomStatus() {
         rows={rows}
         columns={columns}
         initialState={{ pagination: { paginationModel } }}
-        pageSizeOptions={[5, 10]}
+        pageSizeOptions={[10, 15]}
         checkboxSelection={false}
         onRowClick={handleClickOpen}
         sx={{ border: 0 }}
       />
-      <RoomStatusModal
-        open={open}
-        onClose={handleClose}
-        roomNumber={selectedRoom}
-        id={selectedId}
-      />
+      <RoomStatusModal open={open} onClose={handleClose} roomData={roomData} />
     </Paper>
   );
 }

@@ -4,10 +4,15 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import TextField from "@mui/material/TextField";
 import { useDispatch } from "react-redux";
-import { changeRoomsList, fetchPostRoomStatus } from "../../store/slices/hotel";
+import {
+  addRoomStatus,
+  changeRoomsList,
+  fetchPostRoomStatus,
+} from "../../store/slices/hotel";
 import * as React from "react";
+import { FormLabel } from "@mui/material";
 
-export default function Modal(props) {
+export default function RoomListModal(props) {
   const dispatch = useDispatch();
 
   const [open, setOpen] = React.useState(false);
@@ -32,34 +37,37 @@ export default function Modal(props) {
           onSubmit: (event) => {
             event.preventDefault();
             const formData = new FormData(event.currentTarget);
-            formData.append("roomNumber", +props.roomNumber);
+            formData.append("roomNumber", +props.roomData.roomNumber);
+            formData.append("id", props.roomData.id);
             const formJson = Object.fromEntries(formData.entries());
-            dispatch(changeRoomsList(+props.roomNumber));
+            dispatch(changeRoomsList(props.roomData.roomNumber));
             dispatch(fetchPostRoomStatus(formJson));
+            dispatch(addRoomStatus(formJson));
             handleClose();
           },
         }}
       >
         <DialogContent>
-          <strong>Комната {props.roomNumber}</strong>
+          <strong>Комната {props.roomData.roomNumber}</strong>
           <TextField
             autoFocus
             required
-            margin="dense"
+            margin="normal"
             id="name"
             name="name"
             label="Имя заселенца"
             type="text"
             fullWidth
             variant="standard"
+            value="said"
           />
+          <FormLabel htmlFor="date">Дата Въезда</FormLabel>
           <TextField
             autoFocus
             required
-            margin="dense"
+            margin="none"
             id="date"
             name="date"
-            label="дата выезда"
             type="date"
             fullWidth
             variant="standard"
@@ -74,6 +82,7 @@ export default function Modal(props) {
             type="number"
             fullWidth
             variant="standard"
+            value="200"
           />
         </DialogContent>
         <DialogActions>

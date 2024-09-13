@@ -5,6 +5,7 @@ import { fetchRooms } from "../../store/slices/hotel";
 import RoomsErrorBoundary from "../ErrorBoundaries/RoomsErrorBoundary";
 import RoomSkeleton from "../room-skeleton/RoomSkeleton";
 import Room from "./Room";
+import { createSelector } from "@reduxjs/toolkit";
 
 const RoomList = () => {
   const dispatch = useDispatch();
@@ -12,18 +13,28 @@ const RoomList = () => {
   useEffect(() => {
     dispatch(fetchRooms());
   }, [dispatch]);
+  // надо доделать чтобы комната не отображалась при въезде
+  const roomListSelector = createSelector(
+    (state) => state.hotelSlice.rooms,
+    (state) => state.hotelSlice.roomStatus,
+    (rooms, roomStatus) => {
+      console.log(roomStatus);
 
-  // const rooms = useSelector((state) => state.hotelSlice.rooms);
-  const { loading, error, rooms } = useSelector((state) => state.hotelSlice);
+      return rooms.filter((room, i) => room.id !== roomStatus[i].id);
+    }
+  );
+
+  const { loading, error } = useSelector((state) => state.hotelSlice);
+  const rooms = useSelector(roomListSelector);
 
   let emptyArray = Array.from({ length: 8 });
 
+  const errorBoundary = error ? <RoomsErrorBoundary /> : null;
   const skeleton = loading
     ? emptyArray.map((_, i) => {
         return <RoomSkeleton key={i} />;
       })
     : null;
-  const errorBoundary = error ? <RoomsErrorBoundary /> : null;
   const content = !(loading && error)
     ? rooms.map((item, i) => {
         return <Room key={i} rooms={item} />;
